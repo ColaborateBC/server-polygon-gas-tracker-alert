@@ -1,20 +1,24 @@
-#Gas Price API
+# Gas Price API
+
 With the Gas Price API, you can obtain the current Propose Gas Price and Fast Gas Price for Polygon's blockchain network. This API was developed with Node.js and Express, and it utilizes Axios for HTTP requests.
 
-##Setup
+## Setup
+
 Before using the Gas Price API, please ensure that you have a valid API key for Polygon's network. You can obtain this key from the PolygonScan website.
 
 After obtaining your API key, please export it as a named constant in a config.js file. Refer to the example file config.example.js.CopyCopyCopyCopy
 
 Finally, install the dependencies with npm install and run the server with npm start.CopyCopyCopy
 
-##Usage
+## Usage
+
 The Gas Price API has one endpoint: /get-data. This endpoint returns a JSON object with the current Propose Gas Price and Fast Gas Price (in Gwei) for Polygon's network.CopyCopy
 
 To use this endpoint, make a GET request to http://localhost:3000/get-data. For production use, please replace http://localhost:3000 with the appropriate domain name.CopyCopyCopyCopy
 
-##Examples
-###GET /get-data
+## Examples
+
+### GET /get-data
 
 Response:
 
