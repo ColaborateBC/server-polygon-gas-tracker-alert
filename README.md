@@ -23,11 +23,10 @@ To use this endpoint, make a GET request to http://localhost:3000/get-data. For 
 Response:
 
 {
-  "proposeGasPrice": "54",
-  "fastGasPrice": "81"
+"proposeGasPrice": "54",
+"fastGasPrice": "81"
 }
 
 ## 📄 License
 
 This project is licensed under the [GNU General Public License](https://github.com/ColaborateBC/polygon-gas-tracker-alert/blob/main/LICENSE).
-
