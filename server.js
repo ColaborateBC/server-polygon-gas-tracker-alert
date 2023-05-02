@@ -6,12 +6,13 @@ const TelegramBot = require("node-telegram-bot-api");
 
 const API_KEY = config.API_KEY;
 let gasPrices = {};
+let user = {};
 
 const app = express();
 
 app.use(bodyParser.json());
 
-const bot = new TelegramBot(config.TEL_API_KEY || [YOUR_BOT_API_TOKEN], { polling: true });
+const bot = new TelegramBot(config.TEL_API_KEY || [YOUR_BOT_API], { polling: true });
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*"); // Update this with the appropriate origin URL for production use
@@ -52,15 +53,32 @@ app.get("/get-data", (req, res) => {
     // });
 });
 
-app.post("/", (req, res) => {
-  const gasPriceThreshold = req.body.gasPriceThreshold;
-  const telId = req.body.telId;
+app.get("/", async (req, res) => {
+  const chatIdPromise = new Promise((resolve) => {
+    bot.on("message", (msg) => {
+      const chatId = msg.chat.id;
+      user = { chatId: { chatId:chatId, user:msg.chat.username } };
+      console.log(user);
+      if(msg.text === "/start") {
+        bot.sendMessage(chatId, "Welcome to GasTrackerBot!");
+        resolve(chatId);
+      }
+    });
+  });
 
+  const chatId = await chatIdPromise;
+  bot.sendMessage(chatId, "Welcome to GasTrackerBot!");
+  // res.json({ success: true });
+});
+
+app.post("/", (req, res) => {
+    const userId = user.chatId.chatId;
+  const gasPriceThreshold = req.body.gasPriceThreshold;
   // res.json({ success: true });
   if (gasPrices.proposeGasPrice <= gasPriceThreshold || gasPrices.fastGasPrice <= gasPriceThreshold) {
     const message = `Gas price has dropped below ${gasPriceThreshold}. Current prices: Proposed: ${gasPrices.proposeGasPrice}, Fast: ${gasPrices.fastGasPrice}`;
     // console.log(message);
-    bot.sendMessage("-852511629", message)
+    bot.sendMessage(userId, message)
   }
 });
 
